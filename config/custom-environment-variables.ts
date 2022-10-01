@@ -29,7 +29,7 @@ export default {
 
   productionOrigin: "PRODUCTION_ORIGIN",
   productionHost: "PRODUCTION_HOST",
-  productionCookieDomain: "PRODUCTION_COOKIEDOMAIN",  
+  productionCookieDomain: "PRODUCTION_COOKIEDOMAIN",
 
   smtp: {
     host: "EMAIL_HOST",
