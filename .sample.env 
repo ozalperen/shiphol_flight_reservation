@@ -1,0 +1,60 @@
+# API CONFIGURATIONS
+
+PORT=8000
+NODE_ENV=development
+
+# Token expiery times
+accessTokenExpiresIn=60
+refreshTokenExpiresIn=1440
+redisCacheExpiresIn=80
+
+# JWT keys
+JWT_ACCESS_TOKEN_PRIVATE_KEY=
+JWT_ACCESS_TOKEN_PUBLIC_KEY=
+JWT_REFRESH_TOKEN_PRIVATE_KEY=
+JWT_REFRESH_TOKEN_PUBLIC_KEY=
+
+# SMTP settings
+EMAIL_USER=
+EMAIL_PASS=
+EMAIL_HOST=
+EMAIL_PORT=
+EMAIL_SECURE=true
+
+
+# CORS settings
+DEVELOPMENT_ORIGIN=http://localhost:3000
+DEVELOPMENT_HOST=http://localhost:8000
+DEVELOPMENT_COOKIEDOMAIN=.localhost
+
+PRODUCTION_ORIGIN=https://shiphol.trippyraccoon.com
+PRODUCTION_HOST=https://ui.shiphol.trippyraccoon.com
+PRODUCTION_COOKIEDOMAIN=.trippyraccoon.com
+
+# CONTAINER CONFIGURATIONS
+
+# nodejs configuration
+API_CONTAINER_NAME=Schiphol-API
+
+# Postgres configuration
+POSTGRES_CONTAINER_NAME=Schiphol-Postgres
+POSTGRES_DB_LOCATION=../postgresDB
+POSTGRES_DEVELOPMENT_HOST=127.0.0.1
+POSTGRES_PRODUCTION_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_DB=schiphol_api
+
+# Redis configuration
+REDIS_CONTAINER_NAME=Schiphol-Redis
+REDIS_DB_LOCATION=../redisDB
+REDIS_DEVELOPMENT_HOST=redis://127.0.0.1:6379
+REDIS_PRODUCTION_HOST=redis://redis:6379
+REDIS_PORT=6379
+
+# NGINX proxy configuration
+
+DOMAIN=schiphol.trippyraccoon.com
+PROXY=webproxy
+EMAIL=admin@unknownland.org

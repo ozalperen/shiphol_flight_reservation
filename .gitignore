@@ -1,0 +1,10 @@
+.idea/
+.vscode/
+node_modules/
+postgresDB/
+redisDB/
+build/
+tmp/
+temp/
+.env
+src/migrations/

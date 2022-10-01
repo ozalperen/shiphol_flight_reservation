@@ -1,0 +1,40 @@
+version: "3"
+services:
+  # apibackend:
+  #   container_name: ${API_CONTAINER_NAME}
+  #   build: .
+  #   restart: always
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - postgres
+  #     - redis
+  #   links:
+  #     - postgres:postgres
+  #     - redis:redis
+  postgres:
+    restart: always
+    image: postgres:latest
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    ports:
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
+    volumes:
+      - ${POSTGRES_DB_LOCATION}:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+  redis:
+    restart: always
+    image: redis:alpine
+    container_name: ${REDIS_CONTAINER_NAME}
+    ports:
+      - "${REDIS_PORT}:${REDIS_PORT}"
+    volumes:
+      - ${REDIS_DB_LOCATION}:/data
+
+volumes:
+  progresDB:
+  redisDB:
+# networks:
+#      default:
+#         external:
+#           name: ${PROXY}
