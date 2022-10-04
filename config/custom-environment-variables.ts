@@ -37,4 +37,7 @@ export default {
     port: "EMAIL_PORT",
     user: "EMAIL_USER",
   },
+
+  app_id: "APP_ID",
+  app_key: "APP_KEY",
 };

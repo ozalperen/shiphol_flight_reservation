@@ -39,6 +39,9 @@ const validateEnv = () => {
     EMAIL_HOST: str(),
     EMAIL_PORT: port(),
     EMAIL_SECURE: str(),
+
+    APP_ID: str(),
+    APP_KEY: str(),
   });
 };
 
