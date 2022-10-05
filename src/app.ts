@@ -8,6 +8,7 @@ import { AppDataSource } from "./utils/data-source";
 import AppError from "./utils/appError";
 import authRouter from "./routes/auth.routes";
 import userRouter from "./routes/user.routes";
+import flightRouter from "./routes/flight.routes";
 import validateEnv from "./utils/validateEnv";
 import redisClient from "./utils/connectRedis";
 import { apiLimiter } from "./middleware/limiter";
@@ -54,6 +55,7 @@ AppDataSource.initialize()
 
     app.use("/api/auth", authRouter);
     app.use("/api/users", userRouter);
+    app.use("/api/flights", flightRouter);
 
     // HEALTH CHECKER
     app.get("/api/healthChecker", async (_, res: Response) => {
