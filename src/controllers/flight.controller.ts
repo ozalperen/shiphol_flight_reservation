@@ -1,56 +1,74 @@
-import { NextFunction, Request, Response } from 'express';
-import { schipholapiRequest } from '../utils/shipolRequests'
-import { GetFlightInput, CreateFlightInput } from '../schemas/flight.schema';
-import AppError from '../utils/appError';
-import { string } from 'zod';
-import  { Flight }  from '../entities/flights.entity';
-import { SaveOptions, RemoveOptions } from 'typeorm';
-import { createFlight  } from '../services/flight.service'
-
-
-export class Flights {
-  flights: Flightlist[]
-}
-export class Flightlist {
-  flightDirection: string
-  flightName: string
-  flightNumber: string
-  id: string
-  route: Route
-  scheduleDateTime: Date
-  scheduleDate: Date
-  scheduleTime: string
-}
-export class Route {
-  destinations: string[]
-}
+import { NextFunction, Request, Response } from "express";
+import { schipholapiSearchRequest } from "../utils/shipolRequests";
+import { GetFlightInput, CreateFlightInput } from "../schemas/flight.schema";
+import AppError from "../utils/appError";
+import { string } from "zod";
+import { ScipholFlights, Flightlist, Route } from "../entities/flights.entity";
+import { SaveOptions, RemoveOptions } from "typeorm";
+import { createFlight, listFlight } from "../services/flight.service";
 
 export const getFlightHandler = async (
   req: Request<{}, {}, GetFlightInput>,
   res: Response,
   next: NextFunction
 ) => {
+  if (
+    !req.body.flightDirection ||
+    !req.body.route ||
+    !req.body.fromScheduleDate ||
+    !req.body.toScheduleDate
+  ) {
+    return next(
+      new AppError(
+        400,
+        "Missing search parameters please select flightDirection, route, fromScheduleDate and toScheduleDate"
+      )
+    );
+  }
+
+  const todate = new Date(req.body.toScheduleDate);
+  const fromdate = new Date(req.body.fromScheduleDate);
+  if (todate.valueOf() - fromdate.valueOf() > 172800000) {
+    return next(
+      new AppError(
+        400,
+        "The date interval is not valid. Allowed days between the from and to dates is 3"
+      )
+    );
+  }
+  if (todate.valueOf() < fromdate.valueOf()) {
+    return next(
+      new AppError(
+        400,
+        "The date interval is not valid. fromScheduleDate must be a date before toScheduleDate"
+      )
+    );
+  }
   try {
-    const results  = await schipholapiRequest(
+    const results = await schipholapiSearchRequest(
       req.body.flightDirection,
       req.body.route,
       req.body.fromScheduleDate,
-      req.body.toScheduleDate,
-      );
-    if (!req.body.flightDirection || !req.body.route || !req.body.fromScheduleDate || !req.body.toScheduleDate) {
-        return next(new AppError(400, 'Missing search parameters'));
-      }
+      req.body.toScheduleDate
+    );
 
     const json = results;
 
+    if (!json) {
+      return next(
+        new AppError(
+          204,
+          "No flight has been found with provided search parameters"
+        )
+      );
+    }
 
-      if (!json) {
-        return next(new AppError(400, 'No flight has been found with provided search parameters'));
-      }
-    
-    let newFlightList: Flights = await Object.assign(new Flights(), json);
+    let newFlightList: ScipholFlights = Object.assign(
+      new ScipholFlights(),
+      json
+    );
 
-    for (let i = 0; i < newFlightList.flights.length; i++){
+    for (let i = 0; i < newFlightList.flights.length; i++) {
       let newfligth = await createFlight({
         route: newFlightList.flights[i].route.destinations,
         flightDirection: newFlightList.flights[i].flightDirection,
@@ -59,19 +77,25 @@ export const getFlightHandler = async (
         flightNumber: newFlightList.flights[i].flightNumber,
         scheduleDate: newFlightList.flights[i].scheduleDate,
         scheduleDateTime: newFlightList.flights[i].scheduleDateTime,
-        scheduleTime: newFlightList.flights[i].scheduleTime
+        scheduleTime: newFlightList.flights[i].scheduleTime,
       });
-
     }
-   
+
+    const cachedFlights = await listFlight(
+      req.body.flightDirection,
+      req.body.fromScheduleDate,
+      req.body.toScheduleDate,
+      req.body.route
+    );
+
+
     res.status(200).json({
-      status: 'success',
+      status: "success",
       data: {
-        newFlightList,
+        cachedFlights,
       },
     });
   } catch (err: any) {
     next(err);
   }
 };
-
