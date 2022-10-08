@@ -119,7 +119,6 @@ export const getBookingsHandler = async (
         }
         const flight = await getFlightbyId(booking.flight.id);
 
-        console.log(flight);
 
         flight?.avalibleSeats.push(booking.seatNumber)
         
