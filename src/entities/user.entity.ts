@@ -1,7 +1,8 @@
 import crypto from "crypto";
-import { Entity, Column, Index, BeforeInsert } from "typeorm";
+import { Entity, Column, Index, BeforeInsert, OneToMany } from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./model.entity";
+import { Booking } from "./booking.entity";
 
 export enum RoleEnumType {
   USER = "user",
@@ -33,6 +34,9 @@ export class User extends Model {
     default: false,
   })
   verified: boolean;
+
+  @OneToMany(() => Booking, (booking) => booking.user)
+  bookings: Booking[];
 
   @Index("verificationCode_index")
   @Column({

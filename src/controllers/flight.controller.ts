@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { schipholapiSearchRequest } from "../utils/shipolRequests";
-import { GetFlightInput, CreateFlightInput } from "../schemas/flight.schema";
+import { schipholapiSearchRequest, schipholapiIdRequest } from "../utils/shipolRequests";
+import { GetFlightInput, CreateFlightInput, GetFlightbyIdInput } from "../schemas/flight.schema";
 import AppError from "../utils/appError";
 import { string } from "zod";
 import { ScipholFlights, Flightlist, Route } from "../entities/flights.entity";
 import { SaveOptions, RemoveOptions } from "typeorm";
-import { createFlight, listFlight } from "../services/flight.service";
+import { createFlight, listFlight, getFlight } from "../services/flight.service";
 
 export const getFlightHandler = async (
   req: Request<{}, {}, GetFlightInput>,
@@ -93,6 +93,57 @@ export const getFlightHandler = async (
       status: "success",
       data: {
         cachedFlights,
+      },
+    });
+  } catch (err: any) {
+    next(err);
+  }
+};
+
+
+export const getFlightbyIdHandler = async (
+  req: Request<GetFlightbyIdInput>,
+  res: Response,
+  next: NextFunction
+) => {
+ 
+  try {
+    const results = await schipholapiIdRequest(
+      req.params.scipholid
+    );
+
+    const json = results;
+
+    if (!json) {
+      return next(
+        new AppError(
+          204,
+          "No flight has been found with provided ID"
+        )
+      );
+    }
+
+    let newFlight: Flightlist = Object.assign(
+      new Flightlist(),
+      json
+    );
+    
+    let sFligth = await createFlight({
+      route: newFlight.route.destinations,
+      flightDirection: newFlight.flightDirection,
+      scipholid: newFlight.id,
+      flightName: newFlight.flightName,
+      flightNumber: newFlight.flightNumber,
+      scheduleDate: newFlight.scheduleDate,
+      scheduleDateTime: newFlight.scheduleDateTime,
+      scheduleTime: newFlight.scheduleTime,}
+    );
+    const cachedFlight = await getFlight(req.params.scipholid);
+
+    res.status(200).json({
+      status: "success",
+      data: {
+        cachedFlight,
       },
     });
   } catch (err: any) {

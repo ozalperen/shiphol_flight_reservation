@@ -12,9 +12,7 @@ export const getFlightSchema = object({
     route: string({
       required_error: "Target route is required",
     }),
-    flightDirection: string({
-      required_error: "flight direction is required",
-    }),
+    flightDirection: z.nativeEnum(DirectionEnumType),
   }),
 });
 
@@ -40,10 +38,17 @@ export const createFlightSchema = object({
   route: string({
     required_error: "Target route is required",
   }),
-  flightDirection: string({
-    required_error: "flight direction is required",
+  flightDirection: z.nativeEnum(DirectionEnumType),
+});
+const params = {
+  params: object({
+    scipholid: string(),
   }),
+};
+export const getFlightbyIdSchema = object({
+  ...params,
 });
 
 export type GetFlightInput = TypeOf<typeof getFlightSchema>["body"];
 export type CreateFlightInput = TypeOf<typeof createFlightSchema>;
+export type GetFlightbyIdInput = TypeOf<typeof getFlightbyIdSchema>["params"];
