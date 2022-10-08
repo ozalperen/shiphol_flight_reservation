@@ -77,25 +77,26 @@ export const getBookingsHandler = async (
   ) => {
     try {
       const futureBookings = await listBookings(res.locals.user.id as string);
-      const allFlights = JSON.parse(JSON.stringify(futureBookings)) as typeof futureBookings;
+      const pastFlights = await listBookings(res.locals.user.id as string);
       
-      for (let i = 0; i < allFlights.length; i++) {
-      if (allFlights[i].flight.scheduleDateTime < new Date(Date.now())){
-        delete allFlights[i];
-      }
-      }
+
+      
       for (let i = 0; i < futureBookings.length; i++) {
         if (futureBookings[i].flight.scheduleDateTime < new Date(Date.now())){
           delete futureBookings[i];
         }
         }
-      
+        for (let i = 0; i < pastFlights.length; i++) {
+          if (pastFlights[i].flight.scheduleDateTime > new Date(Date.now())){
+            delete pastFlights[i];
+          }
+          }
 
       res.status(200).status(200).json({
         status: 'success',
         data: {
             futureBookings,
-            allFlights
+            pastFlights
             
   
         },
@@ -115,7 +116,7 @@ export const getBookingsHandler = async (
         const booking = await getBooking(req.params.bookingId);
 
         if (!booking) {
-          return next(new AppError(404, 'Meeting with that ID not found'));
+          return next(new AppError(404, 'Flight with that ID not found'));
         }
         const flight = await getFlightbyId(booking.flight.id);
 

@@ -127,7 +127,7 @@ export const getFlightbyIdHandler = async (
       new Flightlist(),
       json
     );
-    
+    const detailedFlightInfo = newFlight;
     let sFligth = await createFlight({
       route: newFlight.route.destinations,
       flightDirection: newFlight.flightDirection,
@@ -138,12 +138,14 @@ export const getFlightbyIdHandler = async (
       scheduleDateTime: newFlight.scheduleDateTime,
       scheduleTime: newFlight.scheduleTime,}
     );
-    const cachedFlight = await getFlight(req.params.scipholid);
+    const flightInfo = await getFlight(req.params.scipholid);
 
     res.status(200).json({
       status: "success",
       data: {
-        cachedFlight,
+        flightInfo,
+        detailedFlightInfo
+        
       },
     });
   } catch (err: any) {
