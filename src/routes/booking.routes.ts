@@ -1,9 +1,9 @@
 import express from "express";
-import { createBookingHandler, getBookingsHandler } from "../controllers/booking.controller";
+import { createBookingHandler, getBookingsHandler, deleteBookingHandler } from "../controllers/booking.controller";
 import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
 import { validate } from "../middleware/validate";
-import { createBookingSchema } from "../schemas/booking.schema";
+import { createBookingSchema, getBookingSchema, deleteBookingSchema  } from "../schemas/booking.schema";
 
 const router = express.Router();
 
@@ -14,6 +14,11 @@ router
   .post(
     validate(createBookingSchema),
     createBookingHandler);
+
+    router
+      .route("/:bookingId")
+      .delete(validate(deleteBookingSchema),
+      deleteBookingHandler)
 
 
 export default router;

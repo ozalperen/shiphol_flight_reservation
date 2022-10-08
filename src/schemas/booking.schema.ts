@@ -12,5 +12,20 @@ export const createBookingSchema = object({
     }),
   });
 
+  const params = {
+    params: object({
+      bookingId: string(),
+    }),
+  };
+  export const deleteBookingSchema = object({
+    ...params,
+  });
+
+  export const getBookingSchema = object({
+    ...params,
+  });
+  
 export type CreateBookingInput = TypeOf<typeof createBookingSchema>["body"];
+export type DeleteBookingInput = TypeOf<typeof deleteBookingSchema>["params"];
+export type GetBookingInput = TypeOf<typeof getBookingSchema>["params"];
 

@@ -10,6 +10,9 @@ export const createBooking = async (input: Partial<Booking>, user: User, flight:
   return await bookingRepository.save(bookingRepository.create({ ...input, user, flight }));
 };
 
+export const getBooking = async (bookingId: string) => {
+    return await bookingRepository.findOneBy({ id: bookingId });
+  };
 
 export const listBookings = async (
     userId: string,

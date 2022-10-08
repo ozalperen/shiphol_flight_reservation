@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import {
-  CreateBookingInput,
+  CreateBookingInput, DeleteBookingInput
 } from '../schemas/booking.schema';
-import { createBooking, listBookings } from '../services/booking.service';
+import { createBooking, listBookings, getBooking } from '../services/booking.service';
 import { findUserById, findUserByIdWithBookings } from '../services/user.service';
 import { getFlight } from '../services/flight.service'
 import AppError from '../utils/appError';
@@ -107,3 +107,25 @@ export const getBookingsHandler = async (
       }
     };
 
+    export const deleteBookingHandler = async (
+      req: Request<DeleteBookingInput>,
+      res: Response,
+      next: NextFunction
+    ) => {
+      try {
+        const meeting = await getBooking(req.params.bookingId);
+    
+        if (!meeting) {
+          return next(new AppError(404, 'Meeting with that ID not found'));
+        }
+    
+        await meeting.remove();
+    
+        res.status(204).json({
+          status: 'success',
+          data: null,
+        });
+      } catch (err: any) {
+        next(err);
+      }
+    };
