@@ -15,23 +15,23 @@ A basic pseudo flight reservation API for Shiphol Airport.
 1. Clone the project
 
 2. fill the .env file:
-   
+
    .env file requires JWT token private keys, smtp mail settings, postgres setting. It's also possible to configure a reverse proxy if needed with an existing network by editing docker-compose.yml.
 
 3. Setup Redis and Postgres
-   
+
    ```bash
    docker-compose up -d
    ```
 
 4. Install dependencies
-   
+
    ```bash
    yarn install
    ```
 
 5. Create database tables
-   
+
    ```bash
    yarn migrate && yarn db:push
    ```
@@ -46,7 +46,7 @@ yarn start
 
 **Development base url:** http://localhost:8000
 
-**postman collection:**  https://www.getpostman.com/collections/eee3b927e328bfca1015
+**postman collection:** https://www.getpostman.com/collections/eee3b927e328bfca1015
 
 ### Authentication
 
@@ -77,10 +77,10 @@ Bearer token authorization is required for most of the requests.
 
 ```json
 {
-"name":"alp eren özalp",
-"email":"alperenoz93@gmail.com",
-"password":"password1222",
-"passwordConfirm":"password1222"
+  "name": "alp eren özalp",
+  "email": "alperenoz93@gmail.com",
+  "password": "password1222",
+  "passwordConfirm": "password1222"
 }
 ```
 
@@ -144,8 +144,7 @@ Status: **200 success**
 **expected JSON body:**
 
 ```json
-{"email":"alperenoz93@gmail.com",
-"password":"password1222"}
+{ "email": "alperenoz93@gmail.com", "password": "password1222" }
 ```
 
 **Expected Response:**
@@ -177,7 +176,7 @@ Status: **200 Success**
 **expected JSON body:**
 
 ```json
-{"email":"alperenoz93@gmail.com"}
+{ "email": "alperenoz93@gmail.com" }
 ```
 
 **Expected Response:**
@@ -203,10 +202,10 @@ Status: **200 success**
 
 ```json
 {
-    "email":"alperenoz93@gmail.com",
-    "passwordUpdateCode":"23e81d9e504a6805",
-    "password":"mynewpassword",
-    "passwordConfirm":"mynewpassword"
+  "email": "alperenoz93@gmail.com",
+  "passwordUpdateCode": "23e81d9e504a6805",
+  "password": "mynewpassword",
+  "passwordConfirm": "mynewpassword"
 }
 ```
 
@@ -229,7 +228,7 @@ Status: **200 success**
 
 ### Searching Flights and Getting Flight Details
 
-Any request to the both /api/flights/ and api/flights/:scipholId searches flights from Sciphol Airport API. Flights appeared on the search results gets written to the local database. If already cached flight re-appears it gets updated.  
+Any request to the both /api/flights/ and api/flights/:scipholId searches flights from Sciphol Airport API. Flights appeared on the search results gets written to the local database. If already cached flight re-appears it gets updated.
 
 | Method | Route                  | Function                                                        | Authentication |
 | ------ | ---------------------- | --------------------------------------------------------------- | -------------- |
@@ -244,7 +243,7 @@ Any request to the both /api/flights/ and api/flights/:scipholId searches flight
 
 **JSON body parameters:**
 
-flightDirection: Direction of the flight  ("A" for arrival and "D" for departures)
+flightDirection: Direction of the flight ("A" for arrival and "D" for departures)
 
 route: IATA or ICAO code of airport in route
 
@@ -252,20 +251,18 @@ fromScheduleDate: Query by ScheduleDate range.
 
 toScheduleDate: Query by ScheduleDate range
 
-Note: The difference of fromScheduleDate and toScheduleDate must not be larger than 3 days. 
+Note: The difference of fromScheduleDate and toScheduleDate must not be larger than 3 days.
 
 **expected JSON body sample:**
 
 ```json
 {
-    "flightDirection":"D",
-    "route": "SAW",
-    "fromScheduleDate": "2022-10-09",
-    "toScheduleDate": "2022-10-09"
+  "flightDirection": "D",
+  "route": "SAW",
+  "fromScheduleDate": "2022-10-09",
+  "toScheduleDate": "2022-10-09"
 }
 ```
-
-
 
 **Expected Response sample:**
 
@@ -273,87 +270,143 @@ Status: **200 OK**
 
 ```json
 {
-    "status": "success",
-    "data": {
-        "cachedFlights": [
-            {
-                "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
-                "created_at": "2022-10-08T17:12:12.150Z",
-                "updated_at": "2022-10-08T17:13:23.835Z",
-                "scipholid": "135673034205682379",
-                "flightName": "TK7769",
-                "flightNumber": "7769",
-                "flightDirection": "D",
-                "scheduleDateTime": "2022-10-09T10:30:00.000Z",
-                "scheduleDate": "2022-10-08T21:00:00.000Z",
-                "scheduleTime": "12:30:00",
-                "route": [
-                    "SAW"
-                ],
-                "avalibleSeats": [
-                    "1", "2", "3", "4", "5", "6", "7",  "8", "9",             "10",
-                    "11", "12", "13", "14", "15", "16", "17", "18"
-                ]
-            },
-            {
-                "id": "f6033a47-0eb1-4f7d-8f20-b8bae6f21592",
-                "created_at": "2022-10-08T17:12:12.155Z",
-                "updated_at": "2022-10-08T17:12:12.155Z",
-                "scipholid": "135673033620322533",
-                "flightName": "PC1252",
-                "flightNumber": "1252",
-                "flightDirection": "D",
-                "scheduleDateTime": "2022-10-09T10:35:00.000Z",
-                "scheduleDate": "2022-10-08T21:00:00.000Z",
-                "scheduleTime": "12:35:00",
-                "route": [
-                    "SAW"
-                ],
-                "avalibleSeats": [
-                    "1", "2", "3", "4", "5", "6", "7",  "8", "9",             "10",
-                    "11", "12", "13", "14", "15", "16", "17", "18"
-                ]
-            },
-            {
-                "id": "87948270-e7ba-4912-b9eb-b20dd7d0e758",
-                "created_at": "2022-10-08T17:12:12.159Z",
-                "updated_at": "2022-10-08T17:12:12.159Z",
-                "scipholid": "135673034205684809",
-                "flightName": "TK7823",
-                "flightNumber": "7823",
-                "flightDirection": "D",
-                "scheduleDateTime": "2022-10-09T14:25:00.000Z",
-                "scheduleDate": "2022-10-08T21:00:00.000Z",
-                "scheduleTime": "16:25:00",
-                "route": [
-                    "SAW"
-                ],
-                "avalibleSeats": [
-                    "1", "2", "3", "4", "5", "6", "7",  "8", "9",             "10",
-                    "11", "12", "13", "14", "15", "16", "17", "18"
-                ]
-            },
-            {
-                "id": "15c868d7-d4eb-419d-9d2c-1bd59555af97",
-                "created_at": "2022-10-08T17:12:12.163Z",
-                "updated_at": "2022-10-08T17:12:12.163Z",
-                "scipholid": "135673033620322537",
-                "flightName": "PC1254",
-                "flightNumber": "1254",
-                "flightDirection": "D",
-                "scheduleDateTime": "2022-10-09T14:30:00.000Z",
-                "scheduleDate": "2022-10-08T21:00:00.000Z",
-                "scheduleTime": "16:30:00",
-                "route": [
-                    "SAW"
-                ],
-                "avalibleSeats": [
-                    "1", "2", "3", "4", "5", "6", "7",  "8", "9",             "10",
-                    "11", "12", "13", "14", "15", "16", "17", "18"
-                ]
-            }
+  "status": "success",
+  "data": {
+    "cachedFlights": [
+      {
+        "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
+        "created_at": "2022-10-08T17:12:12.150Z",
+        "updated_at": "2022-10-08T17:13:23.835Z",
+        "scipholid": "135673034205682379",
+        "flightName": "TK7769",
+        "flightNumber": "7769",
+        "flightDirection": "D",
+        "scheduleDateTime": "2022-10-09T10:30:00.000Z",
+        "scheduleDate": "2022-10-08T21:00:00.000Z",
+        "scheduleTime": "12:30:00",
+        "route": ["SAW"],
+        "avalibleSeats": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18"
         ]
-    }
+      },
+      {
+        "id": "f6033a47-0eb1-4f7d-8f20-b8bae6f21592",
+        "created_at": "2022-10-08T17:12:12.155Z",
+        "updated_at": "2022-10-08T17:12:12.155Z",
+        "scipholid": "135673033620322533",
+        "flightName": "PC1252",
+        "flightNumber": "1252",
+        "flightDirection": "D",
+        "scheduleDateTime": "2022-10-09T10:35:00.000Z",
+        "scheduleDate": "2022-10-08T21:00:00.000Z",
+        "scheduleTime": "12:35:00",
+        "route": ["SAW"],
+        "avalibleSeats": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18"
+        ]
+      },
+      {
+        "id": "87948270-e7ba-4912-b9eb-b20dd7d0e758",
+        "created_at": "2022-10-08T17:12:12.159Z",
+        "updated_at": "2022-10-08T17:12:12.159Z",
+        "scipholid": "135673034205684809",
+        "flightName": "TK7823",
+        "flightNumber": "7823",
+        "flightDirection": "D",
+        "scheduleDateTime": "2022-10-09T14:25:00.000Z",
+        "scheduleDate": "2022-10-08T21:00:00.000Z",
+        "scheduleTime": "16:25:00",
+        "route": ["SAW"],
+        "avalibleSeats": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18"
+        ]
+      },
+      {
+        "id": "15c868d7-d4eb-419d-9d2c-1bd59555af97",
+        "created_at": "2022-10-08T17:12:12.163Z",
+        "updated_at": "2022-10-08T17:12:12.163Z",
+        "scipholid": "135673033620322537",
+        "flightName": "PC1254",
+        "flightNumber": "1254",
+        "flightDirection": "D",
+        "scheduleDateTime": "2022-10-09T14:30:00.000Z",
+        "scheduleDate": "2022-10-08T21:00:00.000Z",
+        "scheduleTime": "16:30:00",
+        "route": ["SAW"],
+        "avalibleSeats": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18"
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -361,8 +414,8 @@ Status: **200 OK**
 
 | code | message                                                  | note                                                                                                 | status  |
 | ---- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------- |
-| 400  | ____ is required                                         | the request expects all of the search filter parameters                                              | fail    |
-| 400  | The date interval is not valid. ____                     | Allowed days between the from and to dates is 3 and from date must be a date before to Schedule Date | fail    |
+| 400  | \_\_\_\_ is required                                     | the request expects all of the search filter parameters                                              | fail    |
+| 400  | The date interval is not valid. \_\_\_\_                 | Allowed days between the from and to dates is 3 and from date must be a date before to Schedule Date | fail    |
 | 204  | No flight has been found with provided search parameters | No flight has been found with provided search parameters                                             | success |
 
 #### Get Detailed Flight Info
@@ -385,174 +438,184 @@ Status: **200 OK**
 
 ```json
 {
-    "status": "success",
-    "data": {
-        "flightInfo": {
-            "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
-            "created_at": "2022-10-08T17:12:12.150Z",
-            "updated_at": "2022-10-08T17:13:23.835Z",
-            "scipholid": "135673034205682379",
-            "flightName": "TK7769",
-            "flightNumber": "7769",
-            "flightDirection": "D",
-            "scheduleDateTime": "2022-10-09T10:30:00.000Z",
-            "scheduleDate": "2022-10-08T21:00:00.000Z",
-            "scheduleTime": "12:30:00",
-            "route": [
-                "SAW"
-            ],
-            "avalibleSeats": [
-               "1", "2", "3", "4", "5", "6", "7",  "8", "9", "10",
-               "11", "12", "13", "14", "15", "16", "17", "18"
-            ]
-        },
-        "detailedFlightInfo": {
-            "lastUpdatedAt": "2022-10-08T17:51:40.399+02:00",
-            "actualLandingTime": null,
-            "actualOffBlockTime": null,
-            "aircraftRegistration": null,
-            "aircraftType": {
-                "iataMain": "737",
-                "iataSub": "73H"
-            },
-            "baggageClaim": null,
-            "checkinAllocations": {
-                "checkinAllocations": [
-                    {
-                        "endTime": "2022-10-09T11:30:00.000+02:00",
-                        "rows": {
-                            "rows": [
-                                {
-                                    "position": "25",
-                                    "desks": {
-                                        "desks": [
-                                            {
-                                                "checkinClass": {
-                                                    "code": "C",
-                                                    "description": "Business class"
-                                                },
-                                                "position": 1
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "C",
-                                                    "description": "Business class"
-                                                },
-                                                "position": 2
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "B",
-                                                    "description": "Baggage drop-off"
-                                                },
-                                                "position": 3
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 4
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 5
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 6
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 7
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 8
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 9
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 10
-                                            },
-                                            {
-                                                "checkinClass": {
-                                                    "code": "Y",
-                                                    "description": "Economy"
-                                                },
-                                                "position": 11
-                                            }
-                                        ]
-                                    }
-                                }
-                            ]
+  "status": "success",
+  "data": {
+    "flightInfo": {
+      "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
+      "created_at": "2022-10-08T17:12:12.150Z",
+      "updated_at": "2022-10-08T17:13:23.835Z",
+      "scipholid": "135673034205682379",
+      "flightName": "TK7769",
+      "flightNumber": "7769",
+      "flightDirection": "D",
+      "scheduleDateTime": "2022-10-09T10:30:00.000Z",
+      "scheduleDate": "2022-10-08T21:00:00.000Z",
+      "scheduleTime": "12:30:00",
+      "route": ["SAW"],
+      "avalibleSeats": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12",
+        "13",
+        "14",
+        "15",
+        "16",
+        "17",
+        "18"
+      ]
+    },
+    "detailedFlightInfo": {
+      "lastUpdatedAt": "2022-10-08T17:51:40.399+02:00",
+      "actualLandingTime": null,
+      "actualOffBlockTime": null,
+      "aircraftRegistration": null,
+      "aircraftType": {
+        "iataMain": "737",
+        "iataSub": "73H"
+      },
+      "baggageClaim": null,
+      "checkinAllocations": {
+        "checkinAllocations": [
+          {
+            "endTime": "2022-10-09T11:30:00.000+02:00",
+            "rows": {
+              "rows": [
+                {
+                  "position": "25",
+                  "desks": {
+                    "desks": [
+                      {
+                        "checkinClass": {
+                          "code": "C",
+                          "description": "Business class"
                         },
-                        "startTime": "2022-10-09T09:30:00.000+02:00"
-                    }
-                ],
-                "remarks": null
+                        "position": 1
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "C",
+                          "description": "Business class"
+                        },
+                        "position": 2
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "B",
+                          "description": "Baggage drop-off"
+                        },
+                        "position": 3
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 4
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 5
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 6
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 7
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 8
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 9
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 10
+                      },
+                      {
+                        "checkinClass": {
+                          "code": "Y",
+                          "description": "Economy"
+                        },
+                        "position": 11
+                      }
+                    ]
+                  }
+                }
+              ]
             },
-            "codeshares": null,
-            "estimatedLandingTime": null,
-            "expectedTimeBoarding": "2022-10-09T11:50:00.000+02:00",
-            "expectedTimeGateClosing": "2022-10-09T12:10:00.000+02:00",
-            "expectedTimeGateOpen": "2022-10-09T11:30:00.000+02:00",
-            "expectedTimeOnBelt": null,
-            "expectedSecurityFilter": "VF3",
-            "flightDirection": "D",
-            "flightName": "TK7769",
-            "flightNumber": 7769,
-            "gate": "D27",
-            "pier": "D",
-            "id": "135673034205682379",
-            "isOperationalFlight": true,
-            "mainFlight": "TK7769",
-            "prefixIATA": "TK",
-            "prefixICAO": "THY",
-            "airlineCode": 166,
-            "publicEstimatedOffBlockTime": null,
-            "publicFlightState": {
-                "flightStates": [
-                    "SCH"
-                ]
-            },
-            "route": {
-                "destinations": [
-                    "SAW"
-                ],
-                "eu": "N",
-                "visa": false
-            },
-            "scheduleDateTime": "2022-10-09T12:30:00.000+02:00",
-            "scheduleDate": "2022-10-09",
-            "scheduleTime": "12:30:00",
-            "serviceType": "J",
-            "terminal": 3,
-            "transferPositions": null,
-            "schemaVersion": "4"
-        }
+            "startTime": "2022-10-09T09:30:00.000+02:00"
+          }
+        ],
+        "remarks": null
+      },
+      "codeshares": null,
+      "estimatedLandingTime": null,
+      "expectedTimeBoarding": "2022-10-09T11:50:00.000+02:00",
+      "expectedTimeGateClosing": "2022-10-09T12:10:00.000+02:00",
+      "expectedTimeGateOpen": "2022-10-09T11:30:00.000+02:00",
+      "expectedTimeOnBelt": null,
+      "expectedSecurityFilter": "VF3",
+      "flightDirection": "D",
+      "flightName": "TK7769",
+      "flightNumber": 7769,
+      "gate": "D27",
+      "pier": "D",
+      "id": "135673034205682379",
+      "isOperationalFlight": true,
+      "mainFlight": "TK7769",
+      "prefixIATA": "TK",
+      "prefixICAO": "THY",
+      "airlineCode": 166,
+      "publicEstimatedOffBlockTime": null,
+      "publicFlightState": {
+        "flightStates": ["SCH"]
+      },
+      "route": {
+        "destinations": ["SAW"],
+        "eu": "N",
+        "visa": false
+      },
+      "scheduleDateTime": "2022-10-09T12:30:00.000+02:00",
+      "scheduleDate": "2022-10-09",
+      "scheduleTime": "12:30:00",
+      "serviceType": "J",
+      "terminal": 3,
+      "transferPositions": null,
+      "schemaVersion": "4"
     }
+  }
 }
 ```
 
@@ -574,8 +637,8 @@ Status: **200 OK**
 
 ```json
 {
-    "scipholid":"135673034205682379",
-    "seatNumber": "12"
+  "scipholid": "135673034205682379",
+  "seatNumber": "12"
 }
 ```
 
@@ -584,67 +647,64 @@ Status: **200 OK**
 Status: **201 Created**
 
 ```json
-
 {
-    "status": "success",
-    "data": {
-        "booking": {
-            "scipholid": "135673034205682379",
-            "seatNumber": "12",
-            "user": {
-                "id": "457cd60e-ea9c-45c1-8f49-68f9c200d290",
-                "created_at": "2022-10-08T17:54:43.341Z",
-                "updated_at": "2022-10-08T17:54:58.462Z",
-                "name": "Alp Eren Özalp",
-                "email": "alperenoz93@hotmail.com",
-                "role": "user"
-            },
-            "flight": {
-                "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
-                "created_at": "2022-10-08T17:12:12.150Z",
-                "updated_at": "2022-10-08T18:34:55.730Z",
-                "scipholid": "135673034205682379",
-                "flightName": "TK7769",
-                "flightNumber": "7769",
-                "flightDirection": "D",
-                "scheduleDateTime": "2022-10-09T10:30:00.000Z",
-                "scheduleDate": "2022-10-08T21:00:00.000Z",
-                "scheduleTime": "12:30:00",
-                "route": [
-                    "SAW"
-                ],
-                "avalibleSeats": [
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "10",
-                    "13",
-                    "14",
-                    "15",
-                    "16",
-                    "17",
-                    "18",
-                    "19",
-                    "20",
-                    "21",
-                    "22",
-                    "23",
-                    "24",
-                    "25",
-                    "11"
-                ]
-            },
-            "id": "e3aedfbd-e00e-4d83-b12c-132d81b32094",
-            "created_at": "2022-10-08T18:34:55.735Z",
-            "updated_at": "2022-10-08T18:34:55.735Z"
-        }
+  "status": "success",
+  "data": {
+    "booking": {
+      "scipholid": "135673034205682379",
+      "seatNumber": "12",
+      "user": {
+        "id": "457cd60e-ea9c-45c1-8f49-68f9c200d290",
+        "created_at": "2022-10-08T17:54:43.341Z",
+        "updated_at": "2022-10-08T17:54:58.462Z",
+        "name": "Alp Eren Özalp",
+        "email": "alperenoz93@hotmail.com",
+        "role": "user"
+      },
+      "flight": {
+        "id": "37132c41-e91f-4d4b-8121-20b6f0241555",
+        "created_at": "2022-10-08T17:12:12.150Z",
+        "updated_at": "2022-10-08T18:34:55.730Z",
+        "scipholid": "135673034205682379",
+        "flightName": "TK7769",
+        "flightNumber": "7769",
+        "flightDirection": "D",
+        "scheduleDateTime": "2022-10-09T10:30:00.000Z",
+        "scheduleDate": "2022-10-08T21:00:00.000Z",
+        "scheduleTime": "12:30:00",
+        "route": ["SAW"],
+        "avalibleSeats": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "7",
+          "8",
+          "9",
+          "10",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "18",
+          "19",
+          "20",
+          "21",
+          "22",
+          "23",
+          "24",
+          "25",
+          "11"
+        ]
+      },
+      "id": "e3aedfbd-e00e-4d83-b12c-132d81b32094",
+      "created_at": "2022-10-08T18:34:55.735Z",
+      "updated_at": "2022-10-08T18:34:55.735Z"
     }
+  }
 }
 ```
 
@@ -671,111 +731,107 @@ Status: **200 OK**
 
 ```json
 {
-    "status": "success",
-    "data": {
-        "futureBookings": [
-            null,
-            {
-                "id": "e67be349-908d-4f5a-be2d-2f360487bd20",
-                "created_at": "2022-10-08T18:54:16.730Z",
-                "updated_at": "2022-10-08T18:54:16.730Z",
-                "scipholid": "135687083538138225",
-                "seatNumber": "25",
-                "flight": {
-                    "id": "b414308f-f70a-43d1-a8cc-1cdad54595d2",
-                    "created_at": "2022-10-08T18:54:06.713Z",
-                    "updated_at": "2022-10-08T18:54:16.724Z",
-                    "scipholid": "135687083538138225",
-                    "flightName": "PC1256",
-                    "flightNumber": "1256",
-                    "flightDirection": "D",
-                    "scheduleDateTime": "2022-10-11T05:20:00.000Z",
-                    "scheduleDate": "2022-10-10T21:00:00.000Z",
-                    "scheduleTime": "07:20:00",
-                    "route": [
-                        "SAW"
-                    ],
-                    "avalibleSeats": [
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                        "13",
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23",
-                        "24"
-                    ]
-                }
-            }
-        ],
-        "pastFlights": [
-            {
-                "id": "4c5b15f2-92fb-4f60-a0c8-f61b10596a1a",
-                "created_at": "2022-10-08T18:52:38.741Z",
-                "updated_at": "2022-10-08T18:52:38.741Z",
-                "scipholid": "135651958743599015",
-                "seatNumber": "25",
-                "flight": {
-                    "id": "4947c020-f415-4f18-a974-d81cd89b459d",
-                    "created_at": "2022-10-08T18:52:24.400Z",
-                    "updated_at": "2022-10-08T18:52:38.736Z",
-                    "scipholid": "135651958743599015",
-                    "flightName": "PC1256",
-                    "flightNumber": "1256",
-                    "flightDirection": "D",
-                    "scheduleDateTime": "2022-10-06T05:20:00.000Z",
-                    "scheduleDate": "2022-10-05T21:00:00.000Z",
-                    "scheduleTime": "07:20:00",
-                    "route": [
-                        "SAW"
-                    ],
-                    "avalibleSeats": [
-                        "1",
-                        "2",
-                        "3",
-                        "4",
-                        "5",
-                        "6",
-                        "7",
-                        "8",
-                        "9",
-                        "10",
-                        "11",
-                        "12",
-                        "13",
-                        "14",
-                        "15",
-                        "16",
-                        "17",
-                        "18",
-                        "19",
-                        "20",
-                        "21",
-                        "22",
-                        "23",
-                        "24"
-                    ]
-                }
-            },
-            null
-        ]
-    }
+  "status": "success",
+  "data": {
+    "futureBookings": [
+      null,
+      {
+        "id": "e67be349-908d-4f5a-be2d-2f360487bd20",
+        "created_at": "2022-10-08T18:54:16.730Z",
+        "updated_at": "2022-10-08T18:54:16.730Z",
+        "scipholid": "135687083538138225",
+        "seatNumber": "25",
+        "flight": {
+          "id": "b414308f-f70a-43d1-a8cc-1cdad54595d2",
+          "created_at": "2022-10-08T18:54:06.713Z",
+          "updated_at": "2022-10-08T18:54:16.724Z",
+          "scipholid": "135687083538138225",
+          "flightName": "PC1256",
+          "flightNumber": "1256",
+          "flightDirection": "D",
+          "scheduleDateTime": "2022-10-11T05:20:00.000Z",
+          "scheduleDate": "2022-10-10T21:00:00.000Z",
+          "scheduleTime": "07:20:00",
+          "route": ["SAW"],
+          "avalibleSeats": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24"
+          ]
+        }
+      }
+    ],
+    "pastFlights": [
+      {
+        "id": "4c5b15f2-92fb-4f60-a0c8-f61b10596a1a",
+        "created_at": "2022-10-08T18:52:38.741Z",
+        "updated_at": "2022-10-08T18:52:38.741Z",
+        "scipholid": "135651958743599015",
+        "seatNumber": "25",
+        "flight": {
+          "id": "4947c020-f415-4f18-a974-d81cd89b459d",
+          "created_at": "2022-10-08T18:52:24.400Z",
+          "updated_at": "2022-10-08T18:52:38.736Z",
+          "scipholid": "135651958743599015",
+          "flightName": "PC1256",
+          "flightNumber": "1256",
+          "flightDirection": "D",
+          "scheduleDateTime": "2022-10-06T05:20:00.000Z",
+          "scheduleDate": "2022-10-05T21:00:00.000Z",
+          "scheduleTime": "07:20:00",
+          "route": ["SAW"],
+          "avalibleSeats": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24"
+          ]
+        }
+      },
+      null
+    ]
+  }
 }
 ```
 
@@ -783,7 +839,7 @@ Status: **200 OK**
 
 This request deletes the booking for the user and makes previously occupied seat available again.
 
- **Method:** DELETE
+**Method:** DELETE
 
 **route:** /api/bookings/:bookingId
 

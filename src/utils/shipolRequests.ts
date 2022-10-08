@@ -39,28 +39,20 @@ export const schipholapiSearchRequest = async (
   } catch (err: any) {}
 };
 
-export const schipholapiIdRequest = async (
-  scipholid: string
-) => {
+export const schipholapiIdRequest = async (scipholid: string) => {
   try {
-    const response = await fetch(
-      baseUrl +
-        "/" +
-        scipholid,
-      {
-        method: "GET",
-        headers: {
-          app_id: config.get<string>("app_id"),
-          app_key: config.get<string>("app_key"),
-          Accept: "application/json",
-          ResourceVersion: "v4",
-        },
-      }
-    );
+    const response = await fetch(baseUrl + "/" + scipholid, {
+      method: "GET",
+      headers: {
+        app_id: config.get<string>("app_id"),
+        app_key: config.get<string>("app_key"),
+        Accept: "application/json",
+        ResourceVersion: "v4",
+      },
+    });
     if (response.status === 200) {
       const data: JSON = await response.json();
       return data;
     }
   } catch (err: any) {}
 };
-

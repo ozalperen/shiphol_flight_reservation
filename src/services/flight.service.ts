@@ -29,7 +29,6 @@ export const listFlight = async (
   return await builder.getMany();
 };
 
-
 export const getFlight = async (scipholid: string) => {
   return await flightRepository.findOneBy({ scipholid: scipholid });
 };

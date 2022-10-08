@@ -25,11 +25,10 @@ export const findUserById = async (userId: string) => {
 
 export const findUserByIdWithBookings = async (userId: string) => {
   return await userRepository.findOne({
-    where: {id: userId },
-    relations: {bookings: true} });
+    where: { id: userId },
+    relations: { bookings: true },
+  });
 };
-
-
 
 export const findUser = async (query: Object) => {
   return await userRepository.findOneBy(query);

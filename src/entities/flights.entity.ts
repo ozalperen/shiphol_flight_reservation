@@ -70,7 +70,7 @@ export class Flight extends Model {
     default: defaultSeats,
   })
   avalibleSeats: string[];
-  
+
   @OneToMany(() => Booking, (booking) => booking.flight)
-  bookings: Booking[]
+  bookings: Booking[];
 }

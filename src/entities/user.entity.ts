@@ -1,5 +1,12 @@
 import crypto from "crypto";
-import { Entity, Column, Index, BeforeInsert, OneToMany, JoinColumn } from "typeorm";
+import {
+  Entity,
+  Column,
+  Index,
+  BeforeInsert,
+  OneToMany,
+  JoinColumn,
+} from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./model.entity";
 import { Booking } from "./booking.entity";
