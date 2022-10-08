@@ -778,3 +778,23 @@ Status: **200 OK**
     }
 }
 ```
+
+### Cancel Booked Flights
+
+This request deletes the booking for the user and makes previously occupied seat available again.
+
+ **Method:** DELETE
+
+**route:** /api/bookings/:bookingId
+
+**parameters:** /bookingId
+
+**Expected Response:**
+
+**Status:** 204 No Content
+
+**Errors:**
+
+| code | message                                   | note | status |
+| ---- | ----------------------------------------- | ---- | ------ |
+| 404  | No flight has been found with provided ID |      | fail   |
