@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { Entity, Column, Index, BeforeInsert, OneToMany } from "typeorm";
+import { Entity, Column, Index, BeforeInsert, OneToMany, JoinColumn } from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./model.entity";
 import { Booking } from "./booking.entity";
@@ -36,7 +36,8 @@ export class User extends Model {
   verified: boolean;
 
   @OneToMany(() => Booking, (booking) => booking.user)
-  bookings: Booking[];
+  @JoinColumn()
+  bookings!: Booking[];
 
   @Index("verificationCode_index")
   @Column({

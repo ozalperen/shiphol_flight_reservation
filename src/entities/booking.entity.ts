@@ -10,6 +10,7 @@ import {
   JoinColumn,
   Timestamp,
 } from "typeorm";
+import { Flight } from "./flights.entity";
 import Model from "./model.entity";
 import { User } from './user.entity';
 
@@ -27,4 +28,8 @@ export class Booking extends Model {
   @ManyToOne(() => User, (user) => user.bookings, {onDelete: 'CASCADE'})
   @JoinColumn()
   user!: User;
+
+  @ManyToOne(() => Flight, (flight) => flight.bookings, {onDelete: 'CASCADE'})
+  @JoinColumn()
+  flight!: Flight;  
 }

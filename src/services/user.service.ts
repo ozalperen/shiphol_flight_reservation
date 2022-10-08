@@ -1,5 +1,6 @@
 import config from "config";
 import { excludedFields } from "../controllers/auth.controller";
+import { Booking } from "../entities/booking.entity";
 import { User } from "../entities/user.entity";
 import { CreateUserInput } from "../schemas/user.schema";
 import redisClient from "../utils/connectRedis";
@@ -21,6 +22,14 @@ export const findUserByEmail = async ({ email }: { email: string }) => {
 export const findUserById = async (userId: string) => {
   return await userRepository.findOneBy({ id: userId });
 };
+
+export const findUserByIdWithBookings = async (userId: string) => {
+  return await userRepository.findOne({
+    where: {id: userId },
+    relations: {bookings: true} });
+};
+
+
 
 export const findUser = async (query: Object) => {
   return await userRepository.findOneBy(query);

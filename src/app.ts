@@ -57,7 +57,7 @@ AppDataSource.initialize()
     app.use("/api/auth", authRouter);
     app.use("/api/users", userRouter);
     app.use("/api/flights", flightRouter);
-    app.use("/api/booking", bookingRouter)
+    app.use("/api/bookings", bookingRouter)
 
     // HEALTH CHECKER
     app.get("/api/healthChecker", async (_, res: Response) => {

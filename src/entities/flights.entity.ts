@@ -10,6 +10,7 @@ import {
   JoinColumn,
   Timestamp,
 } from "typeorm";
+import { Booking } from "./booking.entity";
 import Model from "./model.entity";
 
 export class ScipholFlights {
@@ -69,4 +70,7 @@ export class Flight extends Model {
     default: defaultSeats,
   })
   avalibleSeats: string[];
+  
+  @OneToMany(() => Booking, (booking) => booking.flight)
+  bookings: Booking[]
 }
