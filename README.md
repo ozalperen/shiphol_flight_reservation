@@ -854,3 +854,63 @@ This request deletes the booking for the user and makes previously occupied seat
 | code | message                                   | note | status |
 | ---- | ----------------------------------------- | ---- | ------ |
 | 404  | No flight has been found with provided ID |      | fail   |
+
+## Notes
+
+### UML Diagram
+
+![](./UMLDiagram.png)
+
+### Project Tree
+
+```
+├─ config
+│  └─ custom-environment-variables.ts 
+├─ docker-compose.yml              
+├─ dockerfile                       
+├─ package-lock.json
+├─ package.json
+├─ src
+│  ├─ app.ts
+│  ├─ controllers
+│  │  ├─ auth.controller.ts
+│  │  ├─ booking.controller.ts
+│  │  ├─ flight.controller.ts
+│  │  └─ user.controller.ts
+│  ├─ entities                        
+│  │  ├─ booking.entity.ts
+│  │  ├─ flights.entity.ts
+│  │  ├─ model.entity.ts
+│  │  └─ user.entity.ts
+│  ├─ middleware
+│  │  ├─ deserializeUser.ts
+│  │  ├─ limiter.ts
+│  │  ├─ requireUser.ts
+│  │  └─ validate.ts
+│  ├─ migrations
+│  │
+│  ├─ routes
+│  │  ├─ auth.routes.ts
+│  │  ├─ booking.routes.ts
+│  │  ├─ flight.routes.ts
+│  │  └─ user.routes.ts
+│  ├─ schemas
+│  │  ├─ booking.schema.ts
+│  │  ├─ flight.schema.ts
+│  │  └─ user.schema.ts
+│  ├─ services
+│  │  ├─ booking.service.ts
+│  │  ├─ flight.service.ts
+│  │  └─ user.service.ts
+│  └─ utils
+│     ├─ appError.ts
+│     ├─ connectRedis.ts
+│     ├─ data-source.ts
+│     ├─ email.ts
+│     ├─ jwt.ts
+│     ├─ rawSql.ts
+│     ├─ shipolRequests.ts
+│     └─ validateEnv.ts
+├─ tsconfig.json
+└─ yarn.lock
+```

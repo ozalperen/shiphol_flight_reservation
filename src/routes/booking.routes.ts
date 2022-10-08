@@ -12,17 +12,18 @@ import {
   getBookingSchema,
   deleteBookingSchema,
 } from "../schemas/booking.schema";
+import { bookingLimiter } from "../middleware/limiter";
 
 const router = express.Router();
 
 router.use(deserializeUser, requireUser);
 router
   .route("/")
-  .get(getBookingsHandler)
-  .post(validate(createBookingSchema), createBookingHandler);
+  .get(bookingLimiter, getBookingsHandler)
+  .post(bookingLimiter, validate(createBookingSchema), createBookingHandler);
 
 router
   .route("/:bookingId")
-  .delete(validate(deleteBookingSchema), deleteBookingHandler);
+  .delete(bookingLimiter, validate(deleteBookingSchema), deleteBookingHandler);
 
 export default router;

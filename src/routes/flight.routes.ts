@@ -7,13 +7,16 @@ import { deserializeUser } from "../middleware/deserializeUser";
 import { requireUser } from "../middleware/requireUser";
 import { validate } from "../middleware/validate";
 import { getFlightSchema, getFlightbyIdSchema } from "../schemas/flight.schema";
+import { getFlightLimiter } from "../middleware/limiter";
 
 const router = express.Router();
 
 router.use(deserializeUser, requireUser);
-router.route("/").post(validate(getFlightSchema), getFlightHandler);
+router
+  .route("/")
+  .post(getFlightLimiter, validate(getFlightSchema), getFlightHandler);
 router
   .route("/:scipholid")
-  .get(validate(getFlightbyIdSchema), getFlightbyIdHandler);
+  .get(getFlightLimiter, validate(getFlightbyIdSchema), getFlightbyIdHandler);
 
 export default router;

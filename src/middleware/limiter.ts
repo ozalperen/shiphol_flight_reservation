@@ -51,3 +51,21 @@ export const updatePasswordLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
 });
+
+export const getFlightLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message:
+    "Too many fligth list requested from this IP, please try again after 15 minutes",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+export const bookingLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message:
+    "Too many fligth list requested from this IP, please try again after 15 minutes",
+  standardHeaders: true,
+  legacyHeaders: false,
+});
