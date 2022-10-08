@@ -4,7 +4,7 @@ import {
 } from '../schemas/booking.schema';
 import { createBooking, listBookings, getBooking } from '../services/booking.service';
 import { findUserById, findUserByIdWithBookings } from '../services/user.service';
-import { getFlight } from '../services/flight.service'
+import { getFlight, getFlightbyId } from '../services/flight.service'
 import AppError from '../utils/appError';
 import { date } from 'zod';
 
@@ -59,8 +59,7 @@ export const createBookingHandler = async (
     res.status(201).json({
       status: 'success',
       data: {
-        booking,
-        bookedFlight
+        booking
       },
     });
 } catch (err: any) {
@@ -113,14 +112,20 @@ export const getBookingsHandler = async (
       next: NextFunction
     ) => {
       try {
-        const meeting = await getBooking(req.params.bookingId);
-    
-        if (!meeting) {
+        const booking = await getBooking(req.params.bookingId);
+
+        if (!booking) {
           return next(new AppError(404, 'Meeting with that ID not found'));
         }
-    
-        await meeting.remove();
-    
+        const flight = await getFlightbyId(booking.flight.id);
+
+        console.log(flight);
+
+        flight?.avalibleSeats.push(booking.seatNumber)
+        
+        await booking.remove();
+        await flight!.save();
+        
         res.status(204).json({
           status: 'success',
           data: null,

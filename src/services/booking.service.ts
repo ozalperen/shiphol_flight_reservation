@@ -11,9 +11,15 @@ export const createBooking = async (input: Partial<Booking>, user: User, flight:
 };
 
 export const getBooking = async (bookingId: string) => {
-    return await bookingRepository.findOneBy({ id: bookingId });
-  };
-
+    return await bookingRepository.findOne({
+        where: {
+            id: bookingId,
+        },
+        relations: {
+            flight: true,
+        },
+    })
+}
 export const listBookings = async (
     userId: string,
   ) => {

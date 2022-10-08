@@ -33,3 +33,7 @@ export const listFlight = async (
 export const getFlight = async (scipholid: string) => {
   return await flightRepository.findOneBy({ scipholid: scipholid });
 };
+
+export const getFlightbyId = async (flightId: string) => {
+  return await flightRepository.findOneBy({ id: flightId });
+};

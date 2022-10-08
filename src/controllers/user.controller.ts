@@ -1,6 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { findUserById } from "../services/user.service";
-import { getMembershipInput } from "../schemas/user.schema";
 import { UpdateUserInput } from "../schemas/user.schema";
 import AppError from "../utils/appError";
 export const getMeHandler = async (
