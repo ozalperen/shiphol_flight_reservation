@@ -3,7 +3,7 @@ import config from "config";
 
 let redisUrl = config.get<string>("redisDevelopmentHost");
 if (process.env.NODE_ENV === "production") {
-  redisUrl = config.get<string>("redisDevelopmentHost");
+  redisUrl = config.get<string>("redisProductionHost");
 }
 
 const redisClient = createClient({
