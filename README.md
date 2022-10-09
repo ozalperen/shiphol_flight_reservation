@@ -715,7 +715,7 @@ Status: **201 Created**
 | 404  | No flight has been found with provided ID |      | fail    |
 | 400  | Cannot book for past flights              |      | fail    |
 | 400  | Cannot book for arrivals                  |      | fail    |
-| 400  | Chosen seat already booked                |      | success |
+| 400  | Chosen seat already booked                |      | fail    |
 
 #### Listing Booked Flights
 
