@@ -72,7 +72,7 @@ export class User extends Model {
 
   @Column({
     type: "enum",
-    enum: RoleEnumType,
+    enum: MembershipEnumType,
     default: MembershipEnumType.FREE,
   })
   membership: MembershipEnumType;
