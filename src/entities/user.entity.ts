@@ -4,13 +4,23 @@ import {
   Column,
   Index,
   BeforeInsert,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
 } from "typeorm";
 import bcrypt from "bcryptjs";
 import Model from "./model.entity";
+import { Estate } from "./estate.entity";
+import { DeployedModel } from "./deployedModels.entity";
 
 export enum RoleEnumType {
   USER = "user",
   ADMIN = "admin",
+}
+
+export enum MembershipEnumType {
+  PREMIUM = "premium",
+  FREE = "free",
 }
 
 @Entity("users")
@@ -34,6 +44,7 @@ export class User extends Model {
   })
   role: RoleEnumType.USER;
 
+  
   @Column({
     default: false,
   })
@@ -52,6 +63,30 @@ export class User extends Model {
     nullable: true,
   })
   passwordUpdateCode!: string | null;
+
+  @OneToMany(() => Estate, (estate) => estate.owner)
+  ownedEstates: Estate[]
+
+  @OneToMany(() => DeployedModel, (deployedModel) => deployedModel.deployer)
+  deployments: DeployedModel[]
+
+  @Column({
+    type: "enum",
+    enum: RoleEnumType,
+    default: MembershipEnumType.FREE,
+  })
+  membership: MembershipEnumType;
+
+  @Column({
+    type: "text",
+    array: true,
+    nullable: true,
+  })
+  pictureBundle: string [];
+
+  @ManyToMany(() => Estate, (estate) => estate.admins)
+  @JoinTable()
+  administeredEstates: Estate[]
 
   @BeforeInsert()
   async hashPassword() {
