@@ -34,7 +34,7 @@ services:
 volumes:
   progresDB:
   redisDB:
-# networks:
-#      default:
-#         external:
-#           name: ${PROXY}
+networks:
+  default:
+    external:
+      name: ${PROXY}
