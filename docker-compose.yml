@@ -22,19 +22,21 @@ services:
       - ${POSTGRES_DB_LOCATION}:/var/lib/postgresql/data
     env_file:
       - ./.env
+    command: -p ${POSTGRES_PORT}
   redis:
     restart: always
     image: redis:alpine
     container_name: ${REDIS_CONTAINER_NAME}
     ports:
       - "${REDIS_PORT}:${REDIS_PORT}"
+    command: --port ${REDIS_PORT}
     volumes:
       - ${REDIS_DB_LOCATION}:/data
 
 volumes:
   progresDB:
   redisDB:
-networks:
-  default:
-    external:
-      name: ${PROXY}
+# networks:
+#   default:
+#     external:
+#       name: ${PROXY}
