@@ -43,13 +43,6 @@ export class User extends Model {
     default: RoleEnumType.USER,
   })
   role: RoleEnumType.USER;
-
-  @Column({
-    type:"text",
-    nullable: true,
-  })
-  test: string;
-
   
   @Column({
     default: false,
