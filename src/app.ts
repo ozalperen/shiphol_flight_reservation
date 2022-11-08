@@ -7,6 +7,7 @@ import cors from 'cors';
 import { AppDataSource } from './utils/data-source';
 import AppError from './utils/appError';
 import authRouter from './routes/auth.routes';
+import estateRouter from './routes/estate.routes';
 import userRouter from './routes/user.routes';
 import validateEnv from './utils/validateEnv';
 import redisClient from './utils/connectRedis';
@@ -56,6 +57,7 @@ AppDataSource.initialize()
 
     app.use('/api/auth', authRouter);
     app.use('/api/users', userRouter);
+    app.use('/api/estates', estateRouter);
 
 
 

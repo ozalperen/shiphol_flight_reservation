@@ -3,6 +3,7 @@ import {
   Column,
   ManyToOne,
   ManyToMany,
+  JoinColumn,
   OneToMany,
 } from "typeorm";
 import { Folk } from "./folk.entity";
@@ -23,14 +24,19 @@ export class Estate extends Model {
   @Column()
   picture: string;
 
+  @Column()
+  ownerId: string;
+
   @ManyToOne(() => User, (user) => user.ownedEstates)
-  owner: User
+  @JoinColumn()
+  owner!: User;
+
 
   @ManyToMany(() => User, (user) => user.administeredEstates)
-  admins: User[]
+  admins!: User[] 
 
   @ManyToMany(() => Folk, (folk) => folk.estates)
-  folks: Folk[]
+  folks!: Folk[]
 
   @OneToMany(() => Location, (location) => location.estate)
   locations: Location[]
